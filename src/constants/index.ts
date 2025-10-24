@@ -1,3 +1,6 @@
+import codiea from "../assets/codiea.png";
+import heapware from "../assets/heapware.png";
+
 import type {
   TNavLink,
   TService,
@@ -25,8 +28,8 @@ import {
   // figma,
   // docker,
   meta,
-  starbucks,
-  tesla,
+  // starbucks,
+  // tesla,
   shopify,
   carrent,
   jobit,
@@ -127,8 +130,8 @@ const experiences: TExperience[] = [
   {
     title: "Web Developer Intern",
     companyName: "Codiea.io",
-    icon: starbucks,
-    iconBg: "#383E56",
+    icon: codiea,
+    iconBg: "#E6DEDD",
     date: "March 2023 - June 2023",
     points: [
       "Developed responsive web pages and user interfaces using HTML, CSS, Bootstrap, and JavaScript.",
@@ -140,14 +143,14 @@ const experiences: TExperience[] = [
   {
     title: "Frontend Developer",
     companyName: "Heapware Technologies",
-    icon: tesla,
+    icon: heapware,
     iconBg: "#E6DEDD",
     date: "june 2025 - September 2025",
     points: [
-      "Developing and maintaining web applications using React.js and other related technologies.",
-      "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
-      "Implementing responsive design and ensuring cross-browser compatibility.",
-      "Participating in code reviews and providing constructive feedback to other developers.",
+      "Developed responsive and interactive web applications using React.js, Next.js, and Tailwind CSS.",
+      "Built reusable UI components and dynamic layouts to deliver seamless and engaging user experiences.",
+      "Integrated APIs and managed state efficiently using React Hooks and Context API.",
+      "Collaborated with designers and backend developers to ensure consistency, scalability, and clean architecture.",
     ],
   },
   {
