@@ -1,6 +1,8 @@
 import codiea from "../assets/codiea.png";
 import heapware from "../assets/heapware.png";
-
+import lms from "../assets/lms.png";
+import mall from "../assets/mall.png";
+import crm from "../assets/crm.png";
 import type {
   TNavLink,
   TService,
@@ -31,9 +33,10 @@ import {
   // starbucks,
   // tesla,
   shopify,
-  carrent,
-  jobit,
+  // carrent,
+  // jobit,
   tripguide,
+  
   // threejs,
 } from "../assets";
 
@@ -210,66 +213,66 @@ const testimonials: TTestimonial[] = [
 
 const projects: TProject[] = [
   {
-    name: "Car Rent",
+    name: "Learning Management System",
     description:
-      "Web-based platform that allows users to search, book, and manage car rentals from various providers, providing a convenient and efficient solution for transportation needs.",
+      "Built a full-featured LMS with Admin, Teacher, Student, and Staff modules.Implemented course management, quizzes, and attendance tracking with a responsive UI designed in Tailwind CSS and secure role-based access using Node.js and MongoDB.",
     tags: [
       {
-        name: "react",
+        name: "Next.js",
         color: "blue-text-gradient",
       },
       {
-        name: "mongodb",
+        name: "Mongodb",
         color: "green-text-gradient",
       },
       {
-        name: "tailwind",
+        name: "Tailwind CSS",
         color: "pink-text-gradient",
       },
     ],
-    image: carrent,
-    sourceCodeLink: "https://github.com/",
+    image: lms,
+    sourceCodeLink: "https://github.com/xDanial5959",
   },
   {
-    name: "Job IT",
+    name: "Emaan-Mall",
     description:
-      "Web application that enables users to search for job openings, view estimated salary ranges for positions, and locate available jobs based on their current location.",
+      "Developed a responsive e-commerce web app with product listings, dynamic carts, and secure checkout. Built a modern UI using Tailwind CSS and integrated Node.js APIs for authentication, product management, and order handling.",
     tags: [
       {
-        name: "react",
+        name: "Next.js",
         color: "blue-text-gradient",
       },
       {
-        name: "restapi",
+        name: "Restapi",
         color: "green-text-gradient",
       },
       {
-        name: "scss",
+        name: "Typescript",
         color: "pink-text-gradient",
       },
     ],
-    image: jobit,
-    sourceCodeLink: "https://github.com/",
+    image: mall,
+    sourceCodeLink: "https://github.com/xDanial5959/imaan-mall",
   },
   {
-    name: "Trip Guide",
+    name: "Real Estate CRM Web Application",
     description:
-      "A comprehensive travel booking platform that allows users to book flights, hotels, and rental cars, and offers curated recommendations for popular destinations.",
+      "Developed a dynamic web platform integrating real estate listings with CRM functionalities. Implemented property management, client tracking, and lead management features with a responsive and modern UI built in Tailwind CSS, leveraging Next.js for performance, SEO, and TypeScript for scalable, maintainable code.",
     tags: [
       {
-        name: "nextjs",
+        name: "Nextjs",
         color: "blue-text-gradient",
       },
       {
-        name: "supabase",
+        name: "Tailwind CSS",
         color: "green-text-gradient",
       },
       {
-        name: "css",
+        name: "Typescript",
         color: "pink-text-gradient",
       },
     ],
-    image: tripguide,
+    image: crm,
     sourceCodeLink: "https://github.com/",
   },
 ];
