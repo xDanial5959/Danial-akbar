@@ -1,6 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
+
+// ✅ Firebase imports
+import { db } from "../../firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 import { EarthCanvas } from "../canvas";
 import { SectionWrapper } from "../../hoc";
@@ -8,67 +12,77 @@ import { slideIn } from "../../utils/motion";
 import { config } from "../../constants/config";
 import { Header } from "../atoms/Header";
 
-const INITIAL_STATE = Object.fromEntries(
+// ✅ Initial form state
+const INITIAL_STATE: Record<string, string> = Object.fromEntries(
   Object.keys(config.contact.form).map((input) => [input, ""])
 );
 
+// ✅ EmailJS config
 const emailjsConfig = {
   serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
   templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-  accessToken: import.meta.env.VITE_EMAILJS_ACCESS_TOKEN,
+  publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
 };
 
-const Contact = () => {
-  const formRef = useRef<React.LegacyRef<HTMLFormElement> | undefined>();
+const Contact: React.FC = () => {
+  const formRef = useRef<HTMLFormElement>(null);
   const [form, setForm] = useState(INITIAL_STATE);
   const [loading, setLoading] = useState(false);
 
+  // ✅ Initialize EmailJS once when the component mounts
+  useEffect(() => {
+    if (!emailjsConfig.publicKey) {
+      console.error("❌ Missing EmailJS public key! Check your .env file.");
+    } else {
+      emailjs.init(emailjsConfig.publicKey);
+      console.log("✅ EmailJS initialized with:", emailjsConfig.publicKey);
+    }
+  }, []);
+
+  // ✅ Handle input changes
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | undefined
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    if (e === undefined) return;
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement> | undefined) => {
-    if (e === undefined) return;
+  // ✅ Submit handler
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
-    emailjs
-      .send(
-        emailjsConfig.serviceId,
-        emailjsConfig.templateId,
-        {
-          form_name: form.name,
-          to_name: config.html.fullName,
-          from_email: form.email,
-          to_email: config.html.email,
-          message: form.message,
-        },
-        emailjsConfig.accessToken
-      )
-      .then(
-        () => {
-          setLoading(false);
-          alert("Thank you. I will get back to you as soon as possible.");
+    try {
+      // 1️⃣ Save to Firebase Firestore
+      await addDoc(collection(db, "contacts"), {
+        name: form.name,
+        email: form.email,
+        message: form.message,
+        createdAt: serverTimestamp(),
+      });
 
-          setForm(INITIAL_STATE);
-        },
-        (error) => {
-          setLoading(false);
+      // 2️⃣ Send Email via EmailJS
+      await emailjs.send(emailjsConfig.serviceId, emailjsConfig.templateId, {
+        form_name: form.name,
+        to_name: config.html.fullName,
+        from_email: form.email,
+        to_email: config.html.email,
+        message: form.message,
+      });
 
-          console.log(error);
-          alert("Something went wrong.");
-        }
-      );
+      // 3️⃣ Reset form
+      setForm(INITIAL_STATE);
+      setLoading(false);
+      alert("✅ Thank you! Your message has been sent and saved.");
+    } catch (error) {
+      console.error("❌ Error submitting form:", error);
+      alert("Something went wrong. Please try again later.");
+      setLoading(false);
+    }
   };
 
   return (
-    <div
-      className={`flex flex-col-reverse gap-10 overflow-hidden xl:mt-12 xl:flex-row`}
-    >
+    <div className="flex flex-col-reverse gap-10 overflow-hidden xl:mt-12 xl:flex-row">
       <motion.div
         variants={slideIn("left", "tween", 0.2, 1)}
         className="bg-black-100 flex-[0.75] rounded-2xl p-8"
@@ -76,7 +90,6 @@ const Contact = () => {
         <Header useMotion={false} {...config.contact} />
 
         <form
-          // @ts-expect-error
           ref={formRef}
           onSubmit={handleSubmit}
           className="mt-12 flex flex-col gap-8"
@@ -92,7 +105,7 @@ const Contact = () => {
                 <Component
                   type={input === "email" ? "email" : "text"}
                   name={input}
-                  value={form[`${input}`]}
+                  value={form[input]}
                   onChange={handleChange}
                   placeholder={placeholder}
                   className="bg-tertiary placeholder:text-secondary rounded-lg border-none px-6 py-4 font-medium text-white outline-none"
@@ -101,6 +114,7 @@ const Contact = () => {
               </label>
             );
           })}
+
           <button
             type="submit"
             className="bg-tertiary shadow-primary w-fit rounded-xl px-8 py-3 font-bold text-white shadow-md outline-none"
