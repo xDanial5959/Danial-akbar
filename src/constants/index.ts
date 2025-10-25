@@ -273,7 +273,7 @@ const projects: TProject[] = [
       },
     ],
     image: crm,
-    sourceCodeLink: "https://github.com/",
+    sourceCodeLink: "https://github.com/xDanial5959",
   },
 ];
 
