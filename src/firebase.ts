@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDlOn_IwrO-kvp66eUDvUNUbj9DEtBdkdY",
-  authDomain: "danial-akbar-portfolio.firebaseapp.com",
-  projectId: "danial-akbar-portfolio",
-  storageBucket: "danial-akbar-portfolio.firebasestorage.app",
-  messagingSenderId: "132967518433",
-  appId: "1:132967518433:web:b0c5ecd7a7da1efa43a7a0"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
